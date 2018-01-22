@@ -59,8 +59,16 @@ def initialize() {
 
 def motionDetectedHandler(evt){
 	log.debug "motionDetectedHandler called: $evt"
-    theswitch.on()
-    theswitch.setLevel(lightlevel)
+    
+    def hasSwitchLevel = theswitch.hasCapability("Switch Level")
+    log.debug "${theswitch.displayName} has Switch Level capability? $hasSwitchLevel"
+    
+    if(hasSwitchLevel){
+    	log.debug "Setting light level to $lightlevel"
+    	theswitch.setLevel(lightlevel)
+    }else{    
+    	theswitch.on()
+    }
 }
 
 def motionStoppedHandler(evt){
